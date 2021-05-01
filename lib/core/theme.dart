@@ -9,6 +9,7 @@ ThemeData getAppTheme(BuildContext context) {
     ),
   );
   return ThemeData(
+    platform: TargetPlatform.android,
     primaryColor: PColors.black,
     accentColor: PColors.blue,
     primarySwatch: Colors.blue,

@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
       theme: getAppTheme(context),
       builder: EasyLoading.init(),
       home: InitialLoader(),
+
     );
   }
 }

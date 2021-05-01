@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 class RoomsToClean extends StatefulWidget {
   final List<Room> roomList;
 
-  RoomsToClean({this.roomList});
+  final VoidCallback onTap;
+
+  RoomsToClean({this.roomList,this.onTap});
 
   @override
   _RoomsToCleanState createState() => _RoomsToCleanState();
@@ -23,6 +25,9 @@ class _RoomsToCleanState extends State<RoomsToClean> {
         itemBuilder: (BuildContext context, int index) {
           return AllRoomsItem(
             room: this.widget.roomList[index],
+            tapped: (){
+              this.widget.onTap();
+            },
           );
         }
     );

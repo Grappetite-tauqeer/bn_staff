@@ -120,6 +120,10 @@ class _TasksState extends State<Tasks> {
     }
     return RoomsToClean(
       roomList: this.roomToClean,
+      onTap: (){
+        this.getData();
+      },
+
     );
   }
 }
