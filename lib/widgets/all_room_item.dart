@@ -1,12 +1,14 @@
 import 'package:bn_staff/model/room.dart';
+import 'package:bn_staff/util/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+
 class AllRoomsItem extends StatefulWidget {
-  final bool isClean;
-
   final Room room;
+  final VoidCallback tapped;
 
-  AllRoomsItem({this.room,this.isClean = true});
+  AllRoomsItem({this.room, this.tapped});
 
   @override
   _AllRoomsItemState createState() => _AllRoomsItemState();
@@ -37,12 +39,14 @@ class _AllRoomsItemState extends State<AllRoomsItem> {
                 child: Center(
                   child: Container(
                     child: Text(
-                      widget.room.roomStatus == RoomStatus.cleaned ? 'Clean' : 'Reported',
-                      style: TextStyle(color:
-                      widget.room.roomStatus == RoomStatus.cleaned ? cleanColor : reportedColor ,
-                        fontWeight: FontWeight.w600 ,
-                        fontSize: 14
-                      ),
+                      //
+                      Room.roomStringToShow(widget.room.roomStatus),
+                      style: TextStyle(
+                          color: widget.room.roomStatus == RoomStatus.cleaned
+                              ? cleanColor
+                              : reportedColor,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14),
                     ),
                   ),
                 ),
@@ -64,9 +68,10 @@ class _AllRoomsItemState extends State<AllRoomsItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(this.widget.room.name),
-                        SizedBox(height: 4,),
+                        SizedBox(
+                          height: 4,
+                        ),
                         Text(this.widget.room.roomType),
-
                       ],
                     ),
                   ),
@@ -74,28 +79,53 @@ class _AllRoomsItemState extends State<AllRoomsItem> {
               ),
               Icon(Icons.navigate_next),
               SizedBox(width: 8),
-
             ],
           ),
         ),
       ),
       actions: [
-        IconSlideAction(
-          caption: 'Archive',
-          color: Colors.blue,
-          icon: Icons.archive,
-          onTap: () {
+        if (this.widget.room.roomStatus != RoomStatus.cleaned) ...[
+          IconSlideAction(
+            caption: 'Clean',
+            color: Colors.blue,
+            icon: Icons.archive,
+            onTap: () {
+              EasyLoading.show(
+                status: 'loading...',
+              );
 
-          },
-        ),
-        IconSlideAction(
-          caption: 'Share',
-          color: Colors.indigo,
-          icon: Icons.share,
-          onTap: (){
+              RoomApiProvider().changeRoomStatus(
+                  this.widget.room.id, RoomStatus.cleaned, successCallBack: (result) {
+               this.widget.tapped.call();
+              });
 
-          },
-        ),
+              // RoomApiProvider().;
+            },
+          ),
+        ],
+
+        if (this.widget.room.roomStatus != RoomStatus.dirty) ...[
+          IconSlideAction(
+            caption: 'Dirty',
+            color: Colors.indigo,
+            icon: Icons.clean_hands_rounded,
+            onTap: () {
+              this.widget.tapped();
+
+              EasyLoading.show(
+                status: 'loading...',
+              );
+
+              RoomApiProvider().changeRoomStatus(
+                  this.widget.room.id, RoomStatus.dirty,
+                  successCallBack: (result) {
+                this.widget.tapped();
+              });
+            },
+          ),
+        ],
+
+        //Checked Input
       ],
     );
   }

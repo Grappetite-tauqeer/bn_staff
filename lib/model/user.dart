@@ -15,10 +15,13 @@ class User {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var user = prefs.getString('user');
 
+    if (user == null) {
+      return null;
+    }
     return User.fromJson(json.decode(user), null, null);
   }
 
-  User.fromJson(Map<String, dynamic> json,String username , String password) {
+  User.fromJson(Map<String, dynamic> json, String username, String password) {
     accessToken = json['access_token'];
     instanceUrl = json['instance_url'];
     id = json['id'];
@@ -26,27 +29,26 @@ class User {
     issuedAt = json['issued_at'];
     signature = json['signature'];
     if (username == null) {
-
-      this.username = json['username'];;
-      this.password = json['password'];;
-    }
-    else {
+      this.username = json['username'];
+      ;
+      this.password = json['password'];
+      ;
+    } else {
       this.username = username;
       this.password = password;
     }
-
   }
 
   Map<String, dynamic> toJson() => {
-    'username': username,
-    'password': password,
-    'access_token': accessToken,
-    'instance_url': instanceUrl,
-    'id': id,
-    'token_type': tokenType,
-    'issued_at': issuedAt,
-    'signature': signature,
-  };
+        'username': username,
+        'password': password,
+        'access_token': accessToken,
+        'instance_url': instanceUrl,
+        'id': id,
+        'token_type': tokenType,
+        'issued_at': issuedAt,
+        'signature': signature,
+      };
 
 /*
 

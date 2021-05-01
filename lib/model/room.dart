@@ -1,4 +1,7 @@
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 class RoomList {
 
   List<Room> list;
@@ -17,8 +20,75 @@ class Room {
   String id;
   String name;
   RoomStatus roomStatus;
-  int roomId;
+
   String roomType;
+
+
+  static String roomString(roomStatus) {
+
+    if (roomStatus == RoomStatus.cleaned) {
+      return 'Clean';
+    }
+    else if (roomStatus == RoomStatus.checkIn) {
+      return 'Check In';
+    }
+    else if (roomStatus == RoomStatus.checkIn) {
+      return 'Check Out';
+    }
+    else if (roomStatus == RoomStatus.checkOut) {
+      return 'Check Out';
+    }
+    else if (roomStatus == RoomStatus.dirty) {
+      return 'Dirty';
+    }
+    else if (roomStatus == RoomStatus.reported) {
+      return 'Reported';
+    }
+    return '';
+  }
+  static String roomStringToShow(roomStatus) {
+
+    if (roomStatus == RoomStatus.cleaned) {
+      return 'Clean';
+    }
+    else if (roomStatus == RoomStatus.checkIn) {
+      return 'Check In';
+    }
+    else if (roomStatus == RoomStatus.checkIn) {
+      return 'Check Out';
+    }
+    else if (roomStatus == RoomStatus.checkOut) {
+      return 'Check Out';
+    }
+    else if (roomStatus == RoomStatus.dirty) {
+      return 'To-Do';
+    }
+    else if (roomStatus == RoomStatus.reported) {
+      return 'Reported';
+    }
+    return '';
+  }
+
+
+  Color roomStatucColor() {
+
+    if (roomStatus == RoomStatus.cleaned) {
+      return Color.fromRGBO(38, 192, 198, 1);
+    }
+    else if (roomStatus == RoomStatus.checkIn) {
+      return Colors.blueGrey;
+    }
+    else if (roomStatus == RoomStatus.checkOut) {
+      return Colors.black;
+    }
+    else if (roomStatus == RoomStatus.dirty) {
+      return Colors.brown;
+    }
+    else if (roomStatus == RoomStatus.reported) {
+      return Colors.red;
+    }
+    return Colors.red;
+  }
 
   Room.fromJson(Map<String, dynamic> json) {
 
@@ -26,7 +96,12 @@ class Room {
     name = json['Name'];
     if (json['Status__c'] == 'Clean') {
       roomStatus = RoomStatus.cleaned;
-    } else {
+    }
+    else if (json['Status__c'] == 'Dirty') {
+      roomStatus = RoomStatus.dirty;
+    }
+    else {
+
       roomStatus = RoomStatus.reported;
     }
     var c = json['attributes'];
@@ -36,4 +111,40 @@ class Room {
   }
 }
 
-enum RoomStatus { toDo, cleaned, reported }
+enum RoomStatus { checkIn , checkOut , cleaned, dirty ,reported }
+
+
+
+
+class StatusChange {
+  List<ResponseWrapper> responseWrapper;
+
+  StatusChange({this.responseWrapper});
+
+
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.responseWrapper != null) {
+      data['responseWrapper'] =
+          this.responseWrapper.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ResponseWrapper {
+  String recId;
+  String status;
+
+  ResponseWrapper({this.recId, this.status});
+
+
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['recId'] = this.recId;
+    data['status'] = this.status;
+    return data;
+  }
+}

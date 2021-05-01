@@ -64,28 +64,62 @@ class LoginApiProvider {
 }
 
 class RoomApiProvider {
-  Future<void> getRooms({Function successCallBack(result), Function failedCallBack}) async {
+  Future<void> getRooms(
+      {Function successCallBack(result), Function failedCallBack}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       var url = _endpoint + '/services/apexrest/StaffAppUnitAPI/v1/';
 
-
-
       User currentUser = await User.getCurrentUser();
 
-
-      _dio.options.headers['Authorization'] = 'Bearer '+currentUser.accessToken;
-
+      _dio.options.headers['Authorization'] =
+          'Bearer ' + currentUser.accessToken;
 
       Response response = await _dio.get(
         url,
       );
 
+      print(response.data);
+
       var rooms = RoomList.fromJson(response.data);
 
       successCallBack(rooms);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
 
+      failedCallBack.call();
+
+      //return UserResponse.withError("$error");
+    }
+  }
+
+  Future<void> changeRoomStatus(String recordId, RoomStatus newStautus,
+      {Function successCallBack, Function failedCallBack}) async {
+    try {
+      var url = _endpoint + '/services/apexrest/StaffAppUnitAPI/v1/';
+
+      // url = 'https://bntso2--tsodev5.my.salesforce.com/services/apexrest/StaffAppUnitAPI/v1/';
+
+      StatusChange statusChange = StatusChange(responseWrapper: [
+        ResponseWrapper(
+          recId: recordId,
+          status: Room.roomString(newStautus),
+        ),
+      ]);
+
+      print(statusChange.toJson());
+
+      Response response = await _dio.post(url, data: statusChange.toJson());
+
+      print(response.data);
+    //  var rooms = RoomList.fromJson(response.data);
+
+      successCallBack([]);
+
+      return;
+
+      // return UserResponse.fromJson(response.data);
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
 

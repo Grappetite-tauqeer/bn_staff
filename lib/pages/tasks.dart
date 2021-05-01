@@ -3,6 +3,7 @@ import 'package:bn_staff/model/room.dart';
 import 'package:bn_staff/model/user.dart';
 import 'package:bn_staff/pages/rooms_to_clean.dart';
 import 'package:bn_staff/util/dio.dart';
+import 'package:bn_staff/widgets/no_task.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -16,7 +17,10 @@ class Tasks extends StatefulWidget {
 class _TasksState extends State<Tasks> {
   int _sliding = 0;
 
+  bool showingAll = true;
+
   RoomList list;
+  List<Room> roomToClean = [];
 
   @override
   void initState() {
@@ -27,16 +31,22 @@ class _TasksState extends State<Tasks> {
       status: 'loading...',
     );
 
-    RoomApiProvider().getRooms(successCallBack: (result) {
+    getData();
+  }
 
-      setState(() {
-        list = result;
-      });
-      EasyLoading.dismiss();
-
-      return;
-
-    }, failedCallBack: () {});
+  void getData() {
+    RoomApiProvider().getRooms(
+        successCallBack: (result) {
+          setState(() {
+            list = result;
+            roomToClean = list.list
+                .where((i) => i.roomStatus != RoomStatus.cleaned)
+                .toList();
+          });
+          EasyLoading.dismiss();
+          return;
+        },
+        failedCallBack: () {});
   }
 
   @override
@@ -65,16 +75,51 @@ class _TasksState extends State<Tasks> {
                     onValueChanged: (newValue) {
                       setState(() {
                         _sliding = newValue;
+                        showingAll = !showingAll;
                       });
                     }),
               ),
               Expanded(
-                child: this.list == null ? Container() : AllRooms(roomList: this.list,),
+                child: showingAll ? showToCleanView() : showAllRooms(),
               ),
+              //
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget showAllRooms() {
+    if (list == null) {
+      return nullCheckView();
+    }
+    if (list.list.length == 0) {
+      if (roomToClean.length == 0) {
+        return NoTask();
+      }
+    }
+    return AllRooms(
+      roomList: this.list,
+      tapped: () {
+        this.getData();
+      },
+    );
+  }
+
+  Widget nullCheckView() {
+    return Container();
+  }
+
+  Widget showToCleanView() {
+    if (list == null) {
+      return nullCheckView();
+    }
+    if (roomToClean.length == 0) {
+      return NoTask();
+    }
+    return RoomsToClean(
+      roomList: this.roomToClean,
     );
   }
 }

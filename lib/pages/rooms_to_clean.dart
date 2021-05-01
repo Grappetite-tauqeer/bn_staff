@@ -6,7 +6,7 @@ import 'package:bn_staff/widgets/rooms_to_clean_item.dart';
 import 'package:flutter/material.dart';
 
 class RoomsToClean extends StatefulWidget {
-  final RoomList roomList;
+  final List<Room> roomList;
 
   RoomsToClean({this.roomList});
 
@@ -19,11 +19,10 @@ class _RoomsToCleanState extends State<RoomsToClean> {
   Widget build(BuildContext context) {
     return ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: this.widget.roomList.list.length,
+        itemCount: this.widget.roomList.length,
         itemBuilder: (BuildContext context, int index) {
-          return RoomToCleanItem(
-            isClean: Random().nextBool(),
-            room: this.widget.roomList.list[index],
+          return AllRoomsItem(
+            room: this.widget.roomList[index],
           );
         }
     );

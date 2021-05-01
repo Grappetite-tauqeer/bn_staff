@@ -9,7 +9,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class AllRooms extends StatefulWidget {
   final RoomList roomList;
 
-  AllRooms({this.roomList});
+  final Function() tapped;
+
+  AllRooms({this.roomList,this.tapped});
 
   @override
   _AllRoomsState createState() => _AllRoomsState();
@@ -23,8 +25,11 @@ class _AllRoomsState extends State<AllRooms> {
         itemCount: this.widget.roomList.list.length,
         itemBuilder: (BuildContext context, int index) {
           return AllRoomsItem(
-            isClean: Random().nextBool(),
-              room: this.widget.roomList.list[index],
+            room: this.widget.roomList.list[index],
+            tapped: (){
+              this.widget.tapped();
+
+            },
           );
         }
     );

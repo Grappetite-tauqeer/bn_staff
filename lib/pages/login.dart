@@ -6,13 +6,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import '../widgets/input_view.dart';
+import 'package:email_validator/email_validator.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
+  LoginView();
+
+  @override
+  _LoginViewState createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   bool showCompany = false;
 
-  LoginView();
+  bool errorEmail = false;
+
+  TextEditingController controllerEmail = TextEditingController();
+
+  TextEditingController controllerPassword = TextEditingController();
+
+  bool errorPassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +42,9 @@ class LoginView extends StatelessWidget {
                 ),
                 width: 120,
               ),
-              SizedBox(height: 16,),
+              SizedBox(
+                height: 16,
+              ),
               Text(
                 'Welcome Back!',
                 style: TextStyle(
@@ -44,86 +60,102 @@ class LoginView extends StatelessWidget {
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
-              SizedBox(height: 8,),
-
-              FormBuilder(
-                key: _formKey,
-                autovalidateMode: AutovalidateMode.disabled,
-                skipDisabled: false,
-                child: Column(
-                  children: [
-                    InputView(
-                      label: 'Email Address',
-                      detailLabel: 'Please Enter email address',
-                      textInputType: TextInputType.emailAddress,
-                      formValidations: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.required(context),
-
-                        ],
-                      ),
-                    ),
-                    InputView(
-                      label: 'Password',
-                      detailLabel: 'Please Enter your password',
-                      textInputType: TextInputType.emailAddress,
-                      formValidations: FormBuilderValidators.compose(
-                        [
-                          FormBuilderValidators.required(context),
-
-                        ],
-                      ),
-                      isSecure: true,
-                    ),
-
-                    if (showCompany) ... [
-                      InputView(
-                        label: 'Company Url',
-                        detailLabel: 'Please Enter your company url',
-                        textInputType: TextInputType.emailAddress,
-                        formValidations: FormBuilderValidators.compose(
-                          [
-                            FormBuilderValidators.required(context),
-                          ],
-                        ),
-                      ),
-
-                    ],
-
-                  ],
-                ),
+              SizedBox(
+                height: 8,
               ),
+              Column(
+                children: [
+                  InputView(
 
-
-
+                    controller: this.controllerEmail,
+                    showError: this.errorEmail,
+                    icon: Icons.mail_outline,
+                    errorText: 'Enter valid email',
+                    label: 'Email Address',
+                    detailLabel: 'Please Enter email address',
+                    textInputType: TextInputType.emailAddress,
+                    formValidations: FormBuilderValidators.compose(
+                      [
+                        FormBuilderValidators.required(context),
+                      ],
+                    ),
+                  ),
+                  InputView(
+                    isPassword: true,
+                    controller: controllerPassword,
+                    showError: this.errorPassword,
+                    icon: Icons.lock_outline,
+                    errorText: 'Please enter valid password',
+                    label: 'Password',
+                    detailLabel: 'Please Enter your password',
+                    textInputType: TextInputType.emailAddress,
+                    formValidations: FormBuilderValidators.compose(
+                      [
+                        FormBuilderValidators.required(context),
+                      ],
+                    ),
+                    isSecure: true,
+                  ),
+                  if (showCompany) ...[
+                    InputView(
+                      label: 'Company Url',
+                      detailLabel: 'Please Enter your company url',
+                      textInputType: TextInputType.emailAddress,
+                      formValidations: FormBuilderValidators.compose(
+                        [
+                          FormBuilderValidators.required(context),
+                        ],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: PElevatedButton(
                     text: 'LOG IN',
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {
+                      bool flag = true;
+
+                      flag = flag &&
+                          EmailValidator.validate(controllerEmail.value.text);
+
+                      setState(() {
+                        this.errorEmail = !flag;
+                      });
+
+                      if (controllerPassword.value.text.isEmpty) {
+                        flag = false;
+
+                        setState(() {
+                          this.errorPassword = true;
+                        });
+                      } else {
+                        setState(() {
+                          this.errorPassword = false;
+                        });
+                      }
+                      if (flag == true) {
                         print('Correct');
 
                         EasyLoading.show(
                           status: 'loading...',
                         );
                         //
-                        LoginApiProvider().getUser("bookingninjas.tso2@isvedition.org.tsodev5", "Targetman9988\$ypqrLXFM3io3ozghvWaCq980", successCallBack: (){
+                        LoginApiProvider().getUser(
+                            "bookingninjas.tso2@isvedition.org.tsodev5",
+                            "Targetman9988\$ypqrLXFM3io3ozghvWaCq980",
+                            successCallBack: () {
                           EasyLoading.dismiss();
                           EasyLoading.showToast('Loaded in successfully');
 
-                          Route route = MaterialPageRoute(builder: (context) => Tasks());
+                          Route route =
+                              MaterialPageRoute(builder: (context) => Tasks());
                           Navigator.pushReplacement(context, route);
-
-                        } , failedCallBack:  (){
+                        }, failedCallBack: () {
                           EasyLoading.showToast('Error while logging in');
-
                         });
-
-                      } else {
-                        print('Wrong');
-
-                      }
+                      } else {}
                     }),
               ),
             ],

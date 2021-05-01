@@ -19,6 +19,7 @@ class _InitialLoaderState extends State<InitialLoader>
   AnimationController _arrowAnimationController, _heartAnimationController;
 
   void goToMainScreen() async {
+
     User user = await User.getCurrentUser();
 
     if (user == null) {
@@ -77,36 +78,45 @@ class _InitialLoaderState extends State<InitialLoader>
     });
   }
 
-  Widget firstChild() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        AnimatedBuilder(
-          animation: _arrowAnimationController,
-          builder: (context, child) => Transform.rotate(
-            angle: _arrowAnimation.value,
-            child: Icon(
-              Icons.expand_more,
-              size: 50.0,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          secondChild(),
-          SizedBox(
-            height: 80.0,
-          ),
-        ],
+      body: Container(
+        decoration: new BoxDecoration(
+          gradient: new LinearGradient(
+              colors: [
+                Color.fromRGBO(87, 164, 255, 1),
+                Color.fromRGBO(125, 181, 248, 1),
+              ],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Expanded(child: Container()),
+            Expanded(flex: 3, child: secondChild()),
+            Expanded(
+              child: Container(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    'Housekeeping App',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            )
+          ],
+        ),
       ),
     );
   }
@@ -116,16 +126,42 @@ class _InitialLoaderState extends State<InitialLoader>
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         Expanded(
-          child: AnimatedBuilder(
-            animation: _heartAnimationController,
-            builder: (context, child) {
-              return Center(
-                child: Image(
-                  image: AssetImage('asset/images/icon.png'),
-                  width: _heartAnimation.value,
+          child: Column(
+            children: [
+              SizedBox(
+                width: 200,
+                height: 200,
+                child: AnimatedBuilder(
+                  animation: _heartAnimationController,
+                  builder: (context, child) {
+                    return Center(
+                      child: Image(
+                        image: AssetImage('asset/images/logo.png'),
+                        width: _heartAnimation.value,
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Container(),
+                  ),
+                  Expanded(
+                    flex: 84,
+                    child: Image(
+                      image: AssetImage('asset/images/logoText.png'),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 8,
+                    child: Container(),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ],
