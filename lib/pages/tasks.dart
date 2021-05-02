@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'all_rooms.dart';
+import 'dart:io' show Platform;
 
 class Tasks extends StatefulWidget {
   @override
@@ -49,44 +50,78 @@ class _TasksState extends State<Tasks> {
         failedCallBack: () {});
   }
 
+  AppBar makeAppBar() {
+//    if (Platform.isAndroid || 1 == 1) {
+    if (Platform.isAndroid) {
+      return AppBar(
+        leading: Container(),
+        backgroundColor: PColors.blue,
+        title: Text('Tasks'),
+        bottom: TabBar(
+          tabs: [
+            Tab(
+              text: 'Room to Clean',
+            ),
+            Tab(
+              text: 'All Rooms',
+            ),
+          ],
+        ),
+      );
+    }
+    return AppBar(
+      leading: Container(),
+      backgroundColor: PColors.blue,
+      title: Text('Tasks'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
-          leading: Container(),
-          backgroundColor: PColors.blue,
-          title: Text('Tasks'),
-        ),
+        appBar: makeAppBar(),
         body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
-                child: CupertinoSlidingSegmentedControl(
-                    children: {
-                      0: Text('Rooms To Clean'),
-                      1: Text('All Rooms'),
-                    },
-                    groupValue: _sliding,
-                    onValueChanged: (newValue) {
-                      setState(() {
-                        _sliding = newValue;
-                        showingAll = !showingAll;
-                      });
-                    }),
-              ),
-              Expanded(
-                child: showingAll ? showToCleanView() : showAllRooms(),
-              ),
-              //
-            ],
-          ),
+          child: buildBody(),
         ),
       ),
+    );
+  }
+
+  Widget buildBody() {
+   // if (Platform.isAndroid || 1 == 1) {
+      if (Platform.isAndroid ) {
+      return TabBarView(
+        children: [
+          showToCleanView() ,
+          showAllRooms()
+        ],
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
+          child: CupertinoSlidingSegmentedControl(
+              children: {
+                0: Text('Rooms To Clean'),
+                1: Text('All Rooms'),
+              },
+              groupValue: _sliding,
+              onValueChanged: (newValue) {
+                setState(() {
+                  _sliding = newValue;
+                  showingAll = !showingAll;
+                });
+              }),
+        ),
+        Expanded(
+          child: showingAll ? showToCleanView() : showAllRooms(),
+        ),
+        //
+      ],
     );
   }
 
@@ -120,10 +155,9 @@ class _TasksState extends State<Tasks> {
     }
     return RoomsToClean(
       roomList: this.roomToClean,
-      onTap: (){
+      onTap: () {
         this.getData();
       },
-
     );
   }
 }

@@ -82,7 +82,7 @@ class Room {
       return Colors.black;
     }
     else if (roomStatus == RoomStatus.dirty) {
-      return Colors.brown;
+      return Color.fromRGBO(8, 131, 237, 1);//background: rgba(8, 131, 237, 1);
     }
     else if (roomStatus == RoomStatus.reported) {
       return Colors.red;

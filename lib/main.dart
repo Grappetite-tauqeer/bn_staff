@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Booking Ninja',
       theme: getAppTheme(context),
       builder: EasyLoading.init(),
       home: InitialLoader(),
