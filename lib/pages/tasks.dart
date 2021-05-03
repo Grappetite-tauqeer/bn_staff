@@ -20,6 +20,8 @@ class _TasksState extends State<Tasks> {
 
   bool showingAll = true;
 
+  bool foundError = false;
+
   RoomList list;
   List<Room> roomToClean = [];
 
@@ -45,9 +47,26 @@ class _TasksState extends State<Tasks> {
                 .toList();
           });
           EasyLoading.dismiss();
+          setState(() {
+
+            this.foundError = false;
+          });
+
           return;
         },
-        failedCallBack: () {});
+        failedCallBack: () {
+          EasyLoading.dismiss();
+
+          EasyLoading.showToast('Error while loading data');
+
+
+          setState(() {
+
+            this.foundError = true;
+          });
+
+
+        });
   }
 
   AppBar makeAppBar() {
@@ -126,6 +145,18 @@ class _TasksState extends State<Tasks> {
   }
 
   Widget showAllRooms() {
+    if (this.foundError) {
+      return ErrorTaskView(
+        onTap: (){
+          EasyLoading.show(
+            status: 'loading...',
+          );
+
+          this.getData();
+
+        },
+      );
+    }
     if (list == null) {
       return nullCheckView();
     }
@@ -147,6 +178,18 @@ class _TasksState extends State<Tasks> {
   }
 
   Widget showToCleanView() {
+    if (this.foundError) {
+      return ErrorTaskView(
+        onTap: (){
+          EasyLoading.show(
+            status: 'loading...',
+          );
+
+          this.getData();
+
+        },
+      );
+    }
     if (list == null) {
       return nullCheckView();
     }

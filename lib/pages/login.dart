@@ -117,8 +117,13 @@ class _LoginViewState extends State<LoginView> {
                     onPressed: () {
                       bool flag = true;
 
-                      flag = flag &&
-                          EmailValidator.validate(controllerEmail.value.text);
+
+                      if (controllerEmail.value.text.isEmpty) {
+                        flag = false;
+
+                      }
+                      //flag = flag &&
+                        //  EmailValidator.validate(controllerEmail.value.text);
 
                       setState(() {
                         this.errorEmail = !flag;
@@ -143,8 +148,11 @@ class _LoginViewState extends State<LoginView> {
                         );
                         //
                         LoginApiProvider().getUser(
-                            "bookingninjas.tso2@isvedition.org.tsodev5",
-                            "Targetman9988\$ypqrLXFM3io3ozghvWaCq980",
+                            //"bookingninjas.tso2@isvedition.org.tsodev5",
+                           // "Targetman9988\$ypqrLXFM3io3ozghvWaCq980",
+                            controllerEmail.value.text,
+                            controllerPassword.value.text,
+
                             successCallBack: () {
                           EasyLoading.dismiss();
                           EasyLoading.showToast('Loaded in successfully');

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'dart:io' show Platform;
+import '../core/constants.dart';
 
 class AllRoomsItem extends StatefulWidget {
   final Room room;
@@ -37,15 +38,20 @@ class _AllRoomsItemState extends State<AllRoomsItem> {
         return;
       }
     }
-
   }
+
   @override
-  Widget build(BuildContext context) {//|| 1 == 1
-    return (Platform.isAndroid ) ?  Container(child: buildGestureDetector(),)  :Slidable(
-      actionPane: SlidableDrawerActionPane(),
-      child: buildGestureDetector(),
-      actions: actions(),
-    );
+  Widget build(BuildContext context) {
+    //|| 1 == 1
+    return (Platform.isAndroid)
+        ? Container(
+            child: buildGestureDetector(),
+          )
+        : Slidable(
+            actionPane: SlidableDrawerActionPane(),
+            child: buildGestureDetector(),
+            actions: actions(),
+          );
   }
 
   List<Widget> actions() {
@@ -64,6 +70,9 @@ class _AllRoomsItemState extends State<AllRoomsItem> {
                 .changeRoomStatus(this.widget.room.id, RoomStatus.cleaned,
                     successCallBack: (result) {
               this.widget.tapped.call();
+            }, failedCallBack: () {
+              EasyLoading.dismiss();
+              EasyLoading.showToast(Config.error_updating_status);
             });
 
             // RoomApiProvider().;
@@ -83,13 +92,14 @@ class _AllRoomsItemState extends State<AllRoomsItem> {
               status: 'loading...',
             );
 
-            RoomApiProvider().changeRoomStatus(
-              this.widget.room.id,
-              RoomStatus.dirty,
-              successCallBack: (result) {
-                this.widget.tapped();
-              },
-            );
+            RoomApiProvider()
+                .changeRoomStatus(this.widget.room.id, RoomStatus.dirty,
+                    successCallBack: (result) {
+              this.widget.tapped();
+            }, failedCallBack: () {
+              EasyLoading.dismiss();
+              EasyLoading.showToast(Config.error_updating_status);
+            });
           },
         ),
       ],

@@ -136,8 +136,9 @@ class StatusChange {
 class ResponseWrapper {
   String recId;
   String status;
+  String housekeepingNotes;
 
-  ResponseWrapper({this.recId, this.status});
+  ResponseWrapper({this.recId, this.status,this.housekeepingNotes = ''});
 
 
 
@@ -145,6 +146,8 @@ class ResponseWrapper {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['recId'] = this.recId;
     data['status'] = this.status;
+    data['housekeepingNotes'] = housekeepingNotes;
+
     return data;
   }
 }

@@ -66,6 +66,8 @@ class LoginApiProvider {
 class RoomApiProvider {
   Future<void> getRooms(
       {Function successCallBack(result), Function failedCallBack}) async {
+    failedCallBack.call();
+
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -99,8 +101,6 @@ class RoomApiProvider {
     try {
       var url = _endpoint + '/services/apexrest/StaffAppUnitAPI/v1/';
 
-      // url = 'https://bntso2--tsodev5.my.salesforce.com/services/apexrest/StaffAppUnitAPI/v1/';
-
       StatusChange statusChange = StatusChange(responseWrapper: [
         ResponseWrapper(
           recId: recordId,
@@ -113,8 +113,35 @@ class RoomApiProvider {
       Response response = await _dio.post(url, data: statusChange.toJson());
 
       print(response.data);
-    //  var rooms = RoomList.fromJson(response.data);
+      successCallBack([]);
 
+      return;
+
+      // return UserResponse.fromJson(response.data);
+    } catch (error, stacktrace) {
+      print("Exception occured: $error stackTrace: $stacktrace");
+
+      failedCallBack.call();
+
+      //return UserResponse.withError("$error");
+    }
+  }
+
+  Future<void> martAsReported(String recordId, String notes,
+      {Function successCallBack, Function failedCallBack}) async {
+    try {
+      var url = _endpoint + '/services/apexrest/StaffAppUnitAPI/v1/';
+
+      StatusChange statusChange = StatusChange(responseWrapper: [
+        ResponseWrapper(
+            recId: recordId, status: 'Reported', housekeepingNotes: notes),
+      ]);
+
+      print(statusChange.toJson());
+
+      Response response = await _dio.post(url, data: statusChange.toJson());
+
+      print(response.data);
       successCallBack([]);
 
       return;

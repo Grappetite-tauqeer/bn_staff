@@ -1,4 +1,5 @@
 import 'package:bn_staff/core/colors.dart';
+import 'package:bn_staff/core/constants.dart';
 import 'package:bn_staff/model/room.dart';
 import 'package:bn_staff/pages/report_add_info.dart';
 import 'package:bn_staff/util/dio.dart';
@@ -42,7 +43,6 @@ class _RoomDetailState extends State<RoomDetail> {
                 print('State was changed');
                 if (this.widget.selectedRoom.roomStatus ==
                     RoomStatus.reported) {
-
                   goToReport(context);
                 } else {
                   //change status
@@ -146,7 +146,6 @@ class _RoomDetailState extends State<RoomDetail> {
                   title: 'REPORT',
                   action: () {
                     goToReport(context);
-
                   },
                 ),
                 //border: 1px solid rgba(229, 229, 229, 1)
@@ -158,8 +157,8 @@ class _RoomDetailState extends State<RoomDetail> {
     );
   }
 
-  void goToReport(BuildContext context) {
-    Navigator.push(
+  void goToReport(BuildContext context) async {
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ReportAddInfo(
@@ -167,6 +166,15 @@ class _RoomDetailState extends State<RoomDetail> {
         ),
       ),
     );
+    if (result != null) {
+      RoomApiProvider().martAsReported(this.widget.selectedRoom.id, result,
+          successCallBack: (result) {
+        Navigator.pop(context, true);
+      }, failedCallBack: () {
+        EasyLoading.dismiss();
+        EasyLoading.showToast(Config.error_updating_status);
+      });
+    }
   }
 }
 

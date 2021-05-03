@@ -93,28 +93,44 @@ class _InitialLoaderState extends State<InitialLoader>
               stops: [0.0, 1.0],
               tileMode: TileMode.clamp),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(child: Container()),
-            Expanded(flex: 3, child: secondChild()),
-            Expanded(
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
               child: Container(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    'Housekeeping App',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
+
+                width: double.infinity,
+                child: Image(
+                  image: AssetImage('asset/images/Groupbub.png' , ),
+                    fit: BoxFit.fill
+
                 ),
               ),
             ),
-            SizedBox(
-              height: 40,
-            )
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Expanded(child: Container()),
+                Expanded(flex: 3, child: secondChild()),
+                Expanded(
+                  child: Container(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        'Housekeeping App',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                )
+              ],
+            ),
           ],
         ),
       ),
