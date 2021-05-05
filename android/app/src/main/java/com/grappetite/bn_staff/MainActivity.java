@@ -1,4 +1,4 @@
-package com.grappetite.bn_staff;
+package com.bn_staff;
 
 import io.flutter.embedding.android.FlutterActivity;
 
