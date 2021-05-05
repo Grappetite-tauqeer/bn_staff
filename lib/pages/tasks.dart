@@ -46,11 +46,12 @@ class _TasksState extends State<Tasks> {
                 .where((i) => i.roomStatus != RoomStatus.cleaned)
                 .toList();
           });
-          EasyLoading.dismiss();
           setState(() {
 
             this.foundError = false;
           });
+
+          EasyLoading.dismiss();
 
           return;
         },

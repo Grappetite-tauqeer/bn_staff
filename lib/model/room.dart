@@ -116,37 +116,20 @@ enum RoomStatus { checkIn , checkOut , cleaned, dirty ,reported }
 
 
 
-class StatusChange {
-  List<ResponseWrapper> responseWrapper;
 
-  StatusChange({this.responseWrapper});
-
-
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.responseWrapper != null) {
-      data['responseWrapper'] =
-          this.responseWrapper.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
 
 class ResponseWrapper {
-  String recId;
   String status;
   String housekeepingNotes;
 
-  ResponseWrapper({this.recId, this.status,this.housekeepingNotes = ''});
+  ResponseWrapper({ this.status,this.housekeepingNotes = ''});
 
 
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['recId'] = this.recId;
-    data['status'] = this.status;
-    data['housekeepingNotes'] = housekeepingNotes;
+    data['Status__c'] = this.status;
+    data['Housekeeping_Notes__c'] = housekeepingNotes;
 
     return data;
   }

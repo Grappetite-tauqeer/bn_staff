@@ -22,6 +22,8 @@ class _LoginViewState extends State<LoginView> {
 
   bool errorEmail = false;
 
+  bool alreadyInProgress = false;
+
   TextEditingController controllerEmail = TextEditingController();
 
   TextEditingController controllerPassword = TextEditingController();
@@ -66,7 +68,6 @@ class _LoginViewState extends State<LoginView> {
               Column(
                 children: [
                   InputView(
-
                     controller: this.controllerEmail,
                     showError: this.errorEmail,
                     icon: Icons.mail_outline,
@@ -115,15 +116,17 @@ class _LoginViewState extends State<LoginView> {
                 child: PElevatedButton(
                     text: 'LOG IN',
                     onPressed: () {
-                      bool flag = true;
 
+                      if (alreadyInProgress) {
+                        return;
+                      }
+                      bool flag = true;
 
                       if (controllerEmail.value.text.isEmpty) {
                         flag = false;
-
                       }
                       //flag = flag &&
-                        //  EmailValidator.validate(controllerEmail.value.text);
+                      //  EmailValidator.validate(controllerEmail.value.text);
 
                       setState(() {
                         this.errorEmail = !flag;
@@ -143,26 +146,33 @@ class _LoginViewState extends State<LoginView> {
                       if (flag == true) {
                         print('Correct');
 
+                        this.alreadyInProgress = true;
+
+
+
                         EasyLoading.show(
                           status: 'loading...',
                         );
-                        //
-                        LoginApiProvider().getUser(
-                            //"bookingninjas.tso2@isvedition.org.tsodev5",
-                           // "Targetman9988\$ypqrLXFM3io3ozghvWaCq980",
-                            controllerEmail.value.text,
-                            controllerPassword.value.text,
+                        //getSalesForceSession
 
-                            successCallBack: () {
+                        LoginApiProvider().getSalesForceSession(
+                            'bookingninjas.tso2@isvedition.org.teguh',
+                            'Amikom2010', successCallBack: () {
                           EasyLoading.dismiss();
                           EasyLoading.showToast('Loaded in successfully');
+                          alreadyInProgress = false;
 
                           Route route =
                               MaterialPageRoute(builder: (context) => Tasks());
                           Navigator.pushReplacement(context, route);
                         }, failedCallBack: () {
-                          EasyLoading.showToast('Error while logging in');
+                          EasyLoading.dismiss();
+                          //EasyLoading.showToast('Error while logging in');
+
+                          alreadyInProgress = false;
+
                         });
+
                       } else {}
                     }),
               ),

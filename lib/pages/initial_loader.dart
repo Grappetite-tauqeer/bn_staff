@@ -19,20 +19,29 @@ class _InitialLoaderState extends State<InitialLoader>
   AnimationController _arrowAnimationController, _heartAnimationController;
 
   void goToMainScreen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var tmp =  prefs.getString(Config.SESSION_ID_KEY);
 
-    User user = await User.getCurrentUser();
 
-    if (user == null) {
+    if (tmp == null) {
       goToLogin();
     } else {
-      LoginApiProvider().getUser(user.username, user.password,
-          successCallBack: () {
+      //
+      //
+
+      var userName =  prefs.getString(Config.SESSION_USERNAME_KEY);
+      var password =  prefs.getString(Config.SESSION_PASSWORD_KEY);
+
+
+      LoginApiProvider().getSalesForceSession(userName, password , successCallBack: (){
         Future.delayed(const Duration(seconds: 1), () {
           MutualActions.goToView(Tasks(), context);
         });
-      }, failedCallBack: () {
+      },failedCallBack: (){
         goToLogin();
+
       });
+
     }
   }
 

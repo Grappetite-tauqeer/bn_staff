@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bn_staff/core/colors.dart';
 import 'package:bn_staff/core/constants.dart';
 import 'package:bn_staff/model/room.dart';
 import 'package:bn_staff/model/user.dart';
@@ -13,46 +14,30 @@ final Dio _dio = Dio();
 final String _endpoint = Config.BASE_URL;
 
 class LoginApiProvider {
-  Future<void> getUser(String username, String password,
+  Future<void> getSalesForceSession(String username, String password,
       {Function successCallBack, Function failedCallBack}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      var url = _endpoint + '/services/oauth2/token';
+      var url = Config.SALES_LOGIN_URL;
 
-      var formData = FormData.fromMap({
-        'grant_type': Config.Grant_type,
-        'client_id': Config.Client_Id,
-        'client_secret': Config.Client_Secret,
+      Response response = await _dio.get(url, queryParameters: {
         'username': username,
         'password': password,
+        'is_test': true
       });
 
-      Response response = await _dio.post(url, data: formData);
+      if (int.parse(response.data['status'].toString()) == 1) {
+        var c = response.data['session_id'];
 
-      var user = User.fromJson(response.data, username, password);
-      // var json = jsonEncode(user.toJson());
+        await prefs.setString(Config.SESSION_ID_KEY, c);
+        await prefs.setString(Config.SESSION_USERNAME_KEY, username);
+        await prefs.setString(Config.SESSION_PASSWORD_KEY, password);
 
-      var json = jsonEncode(user.toJson());
-      prefs.setString('user', json);
-
-      print(response.data);
-
-      successCallBack.call();
-
-      return;
-
-      /*
-      {
-    "access_token": "00D0n0000004jZf!ARgAQDdyJgfPTpxDSQfQX_.1UhISayWNUe63VxJP6ENhCI2b4jmOtIMAKN1W0eQBIRZm5SBG8cOelY5jN6wUDI2Fyx9J993K",
-    "instance_url": "https://bntso2--tsodev5.my.salesforce.com",
-    "id": "https://test.salesforce.com/id/00D0n0000004jZfEAI/0056A000000pWk0QAE",
-    "token_type": "Bearer",
-    "issued_at": "1619629753570",
-    "signature": "XzWpUwQmmPVM+Rgv4+vU44sEspt2Sjoesfa/C2g6PpQ="
-}
-      * */
-      // return UserResponse.fromJson(response.data);
+        successCallBack();
+      } else {
+        failedCallBack.call();
+      }
     } catch (error, stacktrace) {
       print("Exception occured: $error stackTrace: $stacktrace");
 
@@ -61,22 +46,21 @@ class LoginApiProvider {
       //return UserResponse.withError("$error");
     }
   }
+
 }
 
 class RoomApiProvider {
   Future<void> getRooms(
       {Function successCallBack(result), Function failedCallBack}) async {
-    failedCallBack.call();
 
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      var url =
+          'https://bntso2--teguh.my.salesforce.com/services/data/v51.0/query/?q=select+id,name,status__c,housekeeping_notes__c+from+unit__c';
 
-      var url = _endpoint + '/services/apexrest/StaffAppUnitAPI/v1/';
+      var tmp =  prefs.getString(Config.SESSION_ID_KEY);
 
-      User currentUser = await User.getCurrentUser();
-
-      _dio.options.headers['Authorization'] =
-          'Bearer ' + currentUser.accessToken;
+      _dio.options.headers['Authorization'] = 'Bearer ' + tmp;
 
       Response response = await _dio.get(
         url,
@@ -84,7 +68,7 @@ class RoomApiProvider {
 
       print(response.data);
 
-      var rooms = RoomList.fromJson(response.data);
+      var rooms = RoomList.fromJson(response.data['records']);
 
       successCallBack(rooms);
     } catch (error, stacktrace) {
@@ -99,18 +83,16 @@ class RoomApiProvider {
   Future<void> changeRoomStatus(String recordId, RoomStatus newStautus,
       {Function successCallBack, Function failedCallBack}) async {
     try {
-      var url = _endpoint + '/services/apexrest/StaffAppUnitAPI/v1/';
+      var url =
+          'https://bntso2--teguh.my.salesforce.com/services/data/v51.0/sobjects/Unit__c/'+recordId;
 
-      StatusChange statusChange = StatusChange(responseWrapper: [
-        ResponseWrapper(
-          recId: recordId,
-          status: Room.roomString(newStautus),
-        ),
-      ]);
+
+      ResponseWrapper statusChange = ResponseWrapper(
+        status: Room.roomString(newStautus),
+      );
 
       print(statusChange.toJson());
-
-      Response response = await _dio.post(url, data: statusChange.toJson());
+      Response response = await _dio.patch(url, data: statusChange.toJson());
 
       print(response.data);
       successCallBack([]);
@@ -130,16 +112,15 @@ class RoomApiProvider {
   Future<void> martAsReported(String recordId, String notes,
       {Function successCallBack, Function failedCallBack}) async {
     try {
-      var url = _endpoint + '/services/apexrest/StaffAppUnitAPI/v1/';
+      var url =
+          'https://bntso2--teguh.my.salesforce.com/services/data/v51.0/sobjects/Unit__c/'+recordId;
 
-      StatusChange statusChange = StatusChange(responseWrapper: [
-        ResponseWrapper(
-            recId: recordId, status: 'Reported', housekeepingNotes: notes),
-      ]);
+      ResponseWrapper statusChange =
+          ResponseWrapper(status: 'Reported', housekeepingNotes: notes);
 
       print(statusChange.toJson());
 
-      Response response = await _dio.post(url, data: statusChange.toJson());
+      Response response = await _dio.patch(url, data: statusChange.toJson());
 
       print(response.data);
       successCallBack([]);
