@@ -18,6 +18,8 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormBuilderState>();
 
+  bool isTest = true;
+
   bool showCompany = false;
 
   bool errorEmail = false;
@@ -71,9 +73,9 @@ class _LoginViewState extends State<LoginView> {
                     controller: this.controllerEmail,
                     showError: this.errorEmail,
                     icon: Icons.mail_outline,
-                    errorText: 'Enter valid email',
-                    label: 'Email Address',
-                    detailLabel: 'Please Enter email address',
+                    errorText: 'Enter valid username',
+                    label: 'Username',
+                    detailLabel: 'Please Enter username',
                     textInputType: TextInputType.emailAddress,
                     formValidations: FormBuilderValidators.compose(
                       [
@@ -97,6 +99,25 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     isSecure: true,
                   ),
+                  Row(children: <Widget>[
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Use text server',
+                      style: TextStyle(fontSize: 17.0),
+                    ),
+                    Checkbox(
+                      checkColor: Colors.white,
+                      activeColor: PColors.blue,
+                      value: this.isTest,
+                      onChanged: (bool value) {
+                        setState(() {
+                          isTest = value;
+                        });
+                      },
+                    ),
+                  ]),
                   if (showCompany) ...[
                     InputView(
                       label: 'Company Url',
@@ -116,7 +137,6 @@ class _LoginViewState extends State<LoginView> {
                 child: PElevatedButton(
                     text: 'LOG IN',
                     onPressed: () {
-
                       if (alreadyInProgress) {
                         return;
                       }
@@ -148,16 +168,15 @@ class _LoginViewState extends State<LoginView> {
 
                         this.alreadyInProgress = true;
 
-
-
                         EasyLoading.show(
                           status: 'loading...',
                         );
                         //getSalesForceSession
 
+
                         LoginApiProvider().getSalesForceSession(
-                            'bookingninjas.tso2@isvedition.org.teguh',
-                            'Amikom2010', successCallBack: () {
+                            controllerEmail.value.text,
+                            controllerPassword.value.text,this.isTest ,  successCallBack: () {
                           EasyLoading.dismiss();
                           EasyLoading.showToast('Loaded in successfully');
                           alreadyInProgress = false;
@@ -170,9 +189,7 @@ class _LoginViewState extends State<LoginView> {
                           //EasyLoading.showToast('Error while logging in');
 
                           alreadyInProgress = false;
-
                         });
-
                       } else {}
                     }),
               ),

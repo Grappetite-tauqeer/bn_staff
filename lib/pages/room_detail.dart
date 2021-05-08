@@ -39,32 +39,7 @@ class _RoomDetailState extends State<RoomDetail> {
               Icons.check,
             ),
             onPressed: () {
-              if (this.firstState != this.widget.selectedRoom.roomStatus) {
-                print('State was changed');
-                if (this.widget.selectedRoom.roomStatus ==
-                    RoomStatus.reported) {
-                  goToReport(context);
-                } else {
-                  //change status
-
-                  EasyLoading.show(
-                    status: 'loading...',
-                  );
-
-                  RoomApiProvider().changeRoomStatus(
-                      this.widget.selectedRoom.id,
-                      this.widget.selectedRoom.roomStatus,
-                      successCallBack: (result) {
-                    Navigator.pop(context, true);
-                  }, failedCallBack: () {
-                    EasyLoading.dismiss();
-                    EasyLoading.showToast('Error while updating data');
-                  });
-                }
-              } else {
-                print('State remaining same');
-                Navigator.pop(context);
-              }
+              onUpdateTapped(context);
             },
           ),
         ],
@@ -114,15 +89,18 @@ class _RoomDetailState extends State<RoomDetail> {
                   },
                 ),
                 LinkedLabelRadio(
-                  label: 'Reported',
+                  label: 'Report',
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   value: true,
                   groupValue: this.widget.selectedRoom.roomStatus ==
                       RoomStatus.reported,
                   onChanged: (bool newValue) {
-                    setState(() {
-                      this.widget.selectedRoom.roomStatus = RoomStatus.reported;
-                    });
+                    setState(
+                      () {
+                        this.widget.selectedRoom.roomStatus =
+                            RoomStatus.reported;
+                      },
+                    );
                   },
                 ),
                 Padding(
@@ -143,9 +121,9 @@ class _RoomDetailState extends State<RoomDetail> {
                   height: 8,
                 ),
                 PButton(
-                  title: 'REPORT',
+                  title: 'UPDATE',
                   action: () {
-                    goToReport(context);
+                    onUpdateTapped(context);
                   },
                 ),
                 //border: 1px solid rgba(229, 229, 229, 1)
@@ -155,6 +133,33 @@ class _RoomDetailState extends State<RoomDetail> {
         ),
       ),
     );
+  }
+
+  void onUpdateTapped(BuildContext context) {
+    if (this.firstState != this.widget.selectedRoom.roomStatus) {
+      print('State was changed');
+      if (this.widget.selectedRoom.roomStatus == RoomStatus.reported) {
+        goToReport(context);
+      } else {
+        //change status
+
+        EasyLoading.show(
+          status: 'loading...',
+        );
+
+        RoomApiProvider().changeRoomStatus(
+            this.widget.selectedRoom.id, this.widget.selectedRoom.roomStatus,
+            successCallBack: (result) {
+          Navigator.pop(context, true);
+        }, failedCallBack: () {
+          EasyLoading.dismiss();
+          EasyLoading.showToast('Error while updating data');
+        });
+      }
+    } else {
+      print('State remaining same');
+      Navigator.pop(context);
+    }
   }
 
   void goToReport(BuildContext context) async {

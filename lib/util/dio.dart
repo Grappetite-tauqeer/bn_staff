@@ -14,7 +14,8 @@ final Dio _dio = Dio();
 final String _endpoint = Config.BASE_URL;
 
 class LoginApiProvider {
-  Future<void> getSalesForceSession(String username, String password,
+  Future<void> getSalesForceSession(
+      String username, String password, bool isTest,
       {Function successCallBack, Function failedCallBack}) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -24,7 +25,7 @@ class LoginApiProvider {
       Response response = await _dio.get(url, queryParameters: {
         'username': username,
         'password': password,
-        'is_test': true
+        'is_test': isTest
       });
 
       if (int.parse(response.data['status'].toString()) == 1) {
@@ -33,7 +34,9 @@ class LoginApiProvider {
         await prefs.setString(Config.SESSION_ID_KEY, c);
         await prefs.setString(Config.SESSION_USERNAME_KEY, username);
         await prefs.setString(Config.SESSION_PASSWORD_KEY, password);
+        await prefs.setBool(Config.SESSION_IS_TEST_KEY, isTest);
 
+        //SESSION_IS_TEST_KEY
         successCallBack();
       } else {
         failedCallBack.call();
@@ -46,19 +49,17 @@ class LoginApiProvider {
       //return UserResponse.withError("$error");
     }
   }
-
 }
 
 class RoomApiProvider {
   Future<void> getRooms(
       {Function successCallBack(result), Function failedCallBack}) async {
-
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var url =
           'https://bntso2--teguh.my.salesforce.com/services/data/v51.0/query/?q=select+id,name,status__c,housekeeping_notes__c+from+unit__c';
 
-      var tmp =  prefs.getString(Config.SESSION_ID_KEY);
+      var tmp = prefs.getString(Config.SESSION_ID_KEY);
 
       _dio.options.headers['Authorization'] = 'Bearer ' + tmp;
 
@@ -84,8 +85,8 @@ class RoomApiProvider {
       {Function successCallBack, Function failedCallBack}) async {
     try {
       var url =
-          'https://bntso2--teguh.my.salesforce.com/services/data/v51.0/sobjects/Unit__c/'+recordId;
-
+          'https://bntso2--teguh.my.salesforce.com/services/data/v51.0/sobjects/Unit__c/' +
+              recordId;
 
       ResponseWrapper statusChange = ResponseWrapper(
         status: Room.roomString(newStautus),
@@ -113,7 +114,8 @@ class RoomApiProvider {
       {Function successCallBack, Function failedCallBack}) async {
     try {
       var url =
-          'https://bntso2--teguh.my.salesforce.com/services/data/v51.0/sobjects/Unit__c/'+recordId;
+          'https://bntso2--teguh.my.salesforce.com/services/data/v51.0/sobjects/Unit__c/' +
+              recordId;
 
       ResponseWrapper statusChange =
           ResponseWrapper(status: 'Reported', housekeepingNotes: notes);

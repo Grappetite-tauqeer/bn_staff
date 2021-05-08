@@ -31,9 +31,10 @@ class _InitialLoaderState extends State<InitialLoader>
 
       var userName =  prefs.getString(Config.SESSION_USERNAME_KEY);
       var password =  prefs.getString(Config.SESSION_PASSWORD_KEY);
+      var isText =  prefs.getBool(Config.SESSION_IS_TEST_KEY);
 
 
-      LoginApiProvider().getSalesForceSession(userName, password , successCallBack: (){
+      LoginApiProvider().getSalesForceSession(userName, password ,isText , successCallBack: (){
         Future.delayed(const Duration(seconds: 1), () {
           MutualActions.goToView(Tasks(), context);
         });

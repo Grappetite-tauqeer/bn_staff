@@ -26,6 +26,7 @@ class Config {
   static const SESSION_ID_KEY = 'session_id';
   static const SESSION_USERNAME_KEY = 'username';
   static const SESSION_PASSWORD_KEY = 'password';
+  static const SESSION_IS_TEST_KEY = 'isText';
 
 }
 
