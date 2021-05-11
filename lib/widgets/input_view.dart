@@ -45,7 +45,6 @@ class InputView extends StatelessWidget {
           errorText:showError ? this.errorText : null,
           hintStyle: TextStyle(color: Colors.grey),
           filled: true,
-
           fillColor: Colors.white70,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(4.0)),

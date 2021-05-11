@@ -104,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
                       width: 10,
                     ),
                     Text(
-                      'Use text server',
+                      'Use test server',
                       style: TextStyle(fontSize: 17.0),
                     ),
                     Checkbox(
