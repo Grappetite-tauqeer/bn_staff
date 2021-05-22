@@ -10,6 +10,9 @@ class PColors {
   static const gray = const Color.fromRGBO(128, 138, 166, 1);
   static const lightBlack = Color.fromRGBO(79, 85, 102, 1);
 
+
+  static const backgroundColor =  Colors.white;
+
 //79, 85, 102
 }
 

@@ -20,13 +20,21 @@ class Config {
 
   static const SALES_LOGIN_URL = 'https://bn-sfauth.herokuapp.com/api/session';
 
-
+//
   //?username=bookingninjas.tso2@isvedition.org.teguh&password=Amikom2010&is_test=true
 
   static const SESSION_ID_KEY = 'session_id';
   static const SESSION_USERNAME_KEY = 'username';
   static const SESSION_PASSWORD_KEY = 'password';
   static const SESSION_IS_TEST_KEY = 'isText';
+
+  static const COMMON_PADDING = 16.0;
+
+  static const HOME_CARD_WIDTH_RATIO = 1.19;
+
+  static const HOME_CARD_HEIGHT_RATIO = 2.45;
+
+
 
 }
 

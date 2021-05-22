@@ -35,6 +35,7 @@ dependencies:
   flutter_easyloading: ^3.0.0
   email_validator: ^2.0.1
   flutter_launcher_icons: ^0.9.0
+  syncfusion_flutter_gauges: ^19.1.64
 
 flutter_icons:
   android: true

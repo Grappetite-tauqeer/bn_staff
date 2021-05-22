@@ -1,5 +1,6 @@
 import 'package:bn_staff/pages/home.dart';
 import 'package:bn_staff/pages/tasks.dart';
+import 'package:bn_staff/pages_v2/tasks_home.dart';
 import 'package:bn_staff/util/custom_amination.dart';
 import 'package:flutter/material.dart';
 import 'core/theme.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       title: 'Booking Ninja',
       theme: getAppTheme(context),
       builder: EasyLoading.init(),
-      home: InitialLoader(),
+      home: TasksHome(),
 
     );
   }
