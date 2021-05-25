@@ -9,6 +9,7 @@ ThemeData getAppTheme(BuildContext context) {
     ),
   );
   return ThemeData(
+    scaffoldBackgroundColor: Color.fromRGBO(253, 253, 253, 1),
     primaryColor: PColors.black,
     accentColor: PColors.blue,
     primarySwatch: Colors.blue,
@@ -18,6 +19,12 @@ ThemeData getAppTheme(BuildContext context) {
     appBarTheme: AppBarTheme(
       centerTitle: true,
       brightness: Brightness.dark,
+      backgroundColor: Colors.transparent,
+      elevation: 0.0,
+      textTheme: Theme.of(context).textTheme,
+      iconTheme: IconThemeData(
+        color: Colors.black, //change your color here
+      ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       fillColor: Colors.white,

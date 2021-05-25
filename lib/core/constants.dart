@@ -30,7 +30,7 @@ class Config {
 
   static const COMMON_PADDING = 16.0;
 
-  static const HOME_CARD_WIDTH_RATIO = 1.19;
+  static const HOME_CARD_WIDTH_RATIO = 1.1;
 
   static const HOME_CARD_HEIGHT_RATIO = 2.45;
 
