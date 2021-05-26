@@ -1,5 +1,5 @@
 import 'package:bn_staff/core/colors.dart';
-import 'package:bn_staff/widgets/PButton.dart';
+import 'package:bn_staff/widgets/p_button.dart';
 import 'package:flutter/material.dart';
 
 class NoTask extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:bn_staff/core/constants.dart';
 import 'package:bn_staff/model/room.dart';
 import 'package:bn_staff/pages/report_add_info.dart';
 import 'package:bn_staff/util/dio.dart';
-import 'package:bn_staff/widgets/PButton.dart';
+import 'package:bn_staff/widgets/p_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';

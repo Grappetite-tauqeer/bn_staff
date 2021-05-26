@@ -12,6 +12,11 @@ class PColors {
   static const lightBlack = Color.fromRGBO(79, 85, 102, 1);
 
   static const lightGray =  Color.fromRGBO(196, 196, 196, 1);
+  static const greyTextColor =  Color.fromRGBO(100, 100, 100, 1);
+
+  //background: rgba(122, 122, 122, 1);
+  //background: rgba(255, 152, 0, 1);
+  static const orange =  Color.fromRGBO(255, 152, 0, 1);
   //background: rgba(237, 237, 237, 1);
   //background: rgba(, , , 1);
 

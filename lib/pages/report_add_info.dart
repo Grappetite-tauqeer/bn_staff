@@ -1,7 +1,7 @@
 import 'package:bn_staff/core/colors.dart';
 import 'package:bn_staff/model/room.dart';
 import 'package:bn_staff/util/dio.dart';
-import 'package:bn_staff/widgets/PButton.dart';
+import 'package:bn_staff/widgets/p_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 

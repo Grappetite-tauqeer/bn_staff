@@ -1,9 +1,10 @@
 import 'package:bn_staff/core/colors.dart';
 import 'package:bn_staff/core/constants.dart';
-import 'package:bn_staff/util/custom_amination.dart';
 import 'package:bn_staff/util/custom_app_bar.dart';
+import 'package:bn_staff/widgets/ink_well.dart';
 import 'package:bn_staff/widgets/listing_card.dart';
-import 'package:bn_staff/widgets/rooms_to_clean_item.dart';
+import 'package:bn_staff/widgets/next_icon.dart';
+import 'package:bn_staff/widgets/room_floor.dart';
 import 'package:bn_staff/widgets/top_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -60,22 +61,16 @@ class _TasksHomeState extends State<TasksHome>
             children: [
               AnimatedContainer(
                 duration: Duration(milliseconds: 400),
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width /
+                width: MediaQuery.of(context).size.width /
                     Config.HOME_CARD_WIDTH_RATIO,
                 height: isVisible
-                    ? MediaQuery
-                    .of(context)
-                    .size
-                    .width /
-                    Config.HOME_CARD_HEIGHT_RATIO
+                    ? MediaQuery.of(context).size.width /
+                        Config.HOME_CARD_HEIGHT_RATIO
                     : 0,
                 child: Container(
                   child: Card(
                     elevation: 8,
-                    color: Colors.orange,
+                    color: PColors.orange,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -89,10 +84,10 @@ class _TasksHomeState extends State<TasksHome>
                                 flex: 11,
                                 child: Padding(
                                   padding:
-                                  const EdgeInsets.only(top: 16, left: 20),
+                                      const EdgeInsets.only(top: 16, left: 20),
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.stretch,
+                                        CrossAxisAlignment.stretch,
                                     children: [
                                       Text(
                                         'Rooms Left To Clean',
@@ -136,7 +131,7 @@ class _TasksHomeState extends State<TasksHome>
                                               cornerStyle: CornerStyle.bothFlat,
                                               width: 6,
                                               sizeUnit:
-                                              GaugeSizeUnit.logicalPixel,
+                                                  GaugeSizeUnit.logicalPixel,
                                               color: PColors.backgroundColor,
                                             ),
                                           ],
@@ -243,8 +238,8 @@ class _TasksHomeState extends State<TasksHome>
                   itemCount: 25,
                   separatorBuilder: (BuildContext context, int index) =>
                       Container(
-                        height: 20,
-                      ),
+                    height: 20,
+                  ),
                   itemBuilder: (BuildContext context, int index) {
                     if (index == 0) {
                       return Card1();
@@ -306,117 +301,143 @@ class Card1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpandableNotifier(
         child: Card(
-          clipBehavior: Clip.antiAlias,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            side: new BorderSide(color: Colors.grey, width: 1.0),
-          ),
-          elevation: 2,
-          color: Colors.white,
-          child: Column(
-            children: <Widget>[
-              ScrollOnExpand(
-                scrollOnExpand: true,
-                scrollOnCollapse: false,
-                child: ExpandablePanel(
-                  theme: const ExpandableThemeData(
-                    headerAlignment: ExpandablePanelHeaderAlignment.center,
-                    tapBodyToCollapse: true,
-                  ),
-                  header: Padding(
-                    padding:
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: new BorderSide(color: Colors.grey, width: 1.0),
+      ),
+      elevation: 2,
+      color: Colors.white,
+      child: Column(
+        children: <Widget>[
+          ScrollOnExpand(
+            scrollOnExpand: true,
+            scrollOnCollapse: false,
+            child: ExpandablePanel(
+              theme: const ExpandableThemeData(
+                headerAlignment: ExpandablePanelHeaderAlignment.center,
+                tapBodyToCollapse: true,
+              ),
+              header: Padding(
+                padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '1st Floor',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '1st Floor',
+                        style: TextStyle(
+                          fontSize: 18,
                         ),
-                        Container(
-                          child: Text(
-                            12.toString(),
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 26,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text(
-                          'Rooms\nLeft',
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                  expanded: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        color: Colors.grey,
-                        width: double.infinity,
-                        height: 1,
-                      ),
-                      Container(
-                        height: 40,
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 16, top: 8),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(32, 150, 243, 0.3),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              //background: rgba(32, 150, 243, 0.15);
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Clean Bulk Edit',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(32, 150, 243, 1),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                    Container(
+                      child: Text(
+                        12.toString(),
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 26,
                         ),
                       ),
-                      for (var _ in Iterable.generate(4))
-                        Row(
-                          children: [
-                            Column(
-                              children: [
-                                Text('Room #22 '),
-                                SizedBox(height: 4,),
-                                Text('Right Wing'),
-                              ],
-                            ),
-
-                            Icon(Icons.circle),
-                            Text('Needs Cleaning'),
-                            
-
-                          ],
-                        ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      'Rooms\nLeft',
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                  ],
                 ),
               ),
-            ],
+              expanded: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    color: Colors.grey,
+                    width: double.infinity,
+                    height: 1,
+                  ),
+                  Container(
+                    height: 40,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16, top: 8),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: PInkWell(
+                          onTap: () {
+                            print('Bulk Tappedl');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(32, 150, 243, 0.3),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                            ),
+                            //background: rgba(32, 150, 243, 0.15);
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'Clean Bulk Edit',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(32, 150, 243, 1),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  for (var _ in Iterable.generate(4))
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      child: PInkWell(
+                        onTap: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 12),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: RoomFloor(
+                                  room: 'Room #22',
+                                  wing: 'Right Wing',
+                                ),
+                              ),
+                              Icon(
+                                Icons.circle,
+                                size: 15,
+                                color: PColors.orange,
+                              ),
+                              SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                'Needs Cleaning',
+                                style: TextStyle(
+                                  color: PColors.orange,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              NextIcon(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
-        ));
+        ],
+      ),
+    ));
   }
 }
