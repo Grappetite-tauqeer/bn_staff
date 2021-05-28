@@ -1,15 +1,21 @@
 import 'package:bn_staff/core/colors.dart';
 import 'package:bn_staff/core/constants.dart';
+import 'package:bn_staff/model/room.dart';
 import 'package:bn_staff/util/custom_app_bar.dart';
+import 'package:bn_staff/util/dialog_utils.dart';
 import 'package:bn_staff/widgets/ink_well.dart';
-import 'package:bn_staff/widgets/listing_card.dart';
+
 import 'package:bn_staff/widgets/next_icon.dart';
 import 'package:bn_staff/widgets/room_floor.dart';
+import 'package:bn_staff/widgets/status.dart';
 import 'package:bn_staff/widgets/top_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:expandable/expandable.dart';
+import 'custom_room_detail.dart';
+import 'mini/edit_bulk.dart';
 
 class TasksHome extends StatefulWidget {
   @override
@@ -20,9 +26,6 @@ class _TasksHomeState extends State<TasksHome>
     with SingleTickerProviderStateMixin {
   ScrollController scrollController = new ScrollController();
   bool isVisible = true;
-
-  @override
-  void dispose() {}
 
   var _volumeValue = 50.0;
 
@@ -60,7 +63,7 @@ class _TasksHomeState extends State<TasksHome>
           child: Column(
             children: [
               AnimatedContainer(
-                duration: Duration(milliseconds: 400),
+                duration: Duration(milliseconds: 800),
                 width: MediaQuery.of(context).size.width /
                     Config.HOME_CARD_WIDTH_RATIO,
                 height: isVisible
@@ -241,14 +244,7 @@ class _TasksHomeState extends State<TasksHome>
                     height: 20,
                   ),
                   itemBuilder: (BuildContext context, int index) {
-                    if (index == 0) {
-                      return Card1();
-                    }
-                    return ListingCard(
-                      floorName: '1st Floor',
-                      roomsLeft: 12,
-                      onTap: () {},
-                    );
+                    return Card1();
                   },
                 ),
               ),
@@ -371,6 +367,7 @@ class Card1 extends StatelessWidget {
                         child: PInkWell(
                           onTap: () {
                             print('Bulk Tappedl');
+                            showBottomSheit(context, EditBulk());
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -399,7 +396,14 @@ class Card1 extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 4),
                       child: PInkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomRoomDetail(),
+                                fullscreenDialog: true),
+                          );
+                        },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 12),
@@ -411,20 +415,8 @@ class Card1 extends StatelessWidget {
                                   wing: 'Right Wing',
                                 ),
                               ),
-                              Icon(
-                                Icons.circle,
-                                size: 15,
-                                color: PColors.orange,
-                              ),
-                              SizedBox(
-                                width: 4,
-                              ),
-                              Text(
-                                'Needs Cleaning',
-                                style: TextStyle(
-                                  color: PColors.orange,
-                                  fontSize: 16,
-                                ),
+                              StatusView(
+                                status: RoomStatus.cleaned,
                               ),
                               NextIcon(),
                             ],

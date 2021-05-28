@@ -29,15 +29,13 @@ class Room {
     if (roomStatus == RoomStatus.cleaned) {
       return 'Clean';
     }
+    /*
     else if (roomStatus == RoomStatus.checkIn) {
       return 'Check In';
     }
     else if (roomStatus == RoomStatus.checkIn) {
       return 'Check Out';
-    }
-    else if (roomStatus == RoomStatus.checkOut) {
-      return 'Check Out';
-    }
+    }*/
     else if (roomStatus == RoomStatus.dirty) {
       return 'Dirty';
     }
@@ -51,15 +49,15 @@ class Room {
     if (roomStatus == RoomStatus.cleaned) {
       return 'Clean';
     }
-    else if (roomStatus == RoomStatus.checkIn) {
+
+/*    else if (roomStatus == RoomStatus.checkIn) {
       return 'Check In';
     }
     else if (roomStatus == RoomStatus.checkIn) {
       return 'Check Out';
-    }
-    else if (roomStatus == RoomStatus.checkOut) {
-      return 'Check Out';
-    }
+    }*/
+
+
     else if (roomStatus == RoomStatus.dirty) {
       return 'To-Do';
     }
@@ -75,12 +73,14 @@ class Room {
     if (roomStatus == RoomStatus.cleaned) {
       return Color.fromRGBO(38, 192, 198, 1);
     }
-    else if (roomStatus == RoomStatus.checkIn) {
+
+/*    else if (roomStatus == RoomStatus.checkIn) {
       return Colors.blueGrey;
     }
     else if (roomStatus == RoomStatus.checkOut) {
       return Colors.black;
-    }
+    }*/
+
     else if (roomStatus == RoomStatus.dirty) {
       return Color.fromRGBO(8, 131, 237, 1);//background: rgba(8, 131, 237, 1);
     }
@@ -111,7 +111,7 @@ class Room {
   }
 }
 
-enum RoomStatus { checkIn , checkOut , cleaned, dirty ,reported }
+enum RoomStatus {  cleaned, dirty ,reported }
 
 
 

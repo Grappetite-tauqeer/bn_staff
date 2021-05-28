@@ -5,6 +5,7 @@ import 'package:bn_staff/widgets/top_button.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 
+import 'custom_room_detail.dart';
 
 class TasksListing extends StatefulWidget {
   @override
@@ -22,7 +23,10 @@ class _TasksListingState extends State<TasksListing> {
       appBar: CustomAppBar.buildAppBar('Tasks'),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: Config.COMMON_PADDING,right: Config.COMMON_PADDING,bottom: Config.COMMON_PADDING),
+          padding: const EdgeInsets.only(
+              left: Config.COMMON_PADDING,
+              right: Config.COMMON_PADDING,
+              bottom: Config.COMMON_PADDING),
           child: Column(
             children: [
               Row(
@@ -68,13 +72,15 @@ class _TasksListingState extends State<TasksListing> {
                   itemCount: 25,
                   separatorBuilder: (BuildContext context, int index) =>
                       Container(
-                        height: 20,
-                      ),
+                    height: 20,
+                  ),
                   itemBuilder: (BuildContext context, int index) {
                     return ListingCard(
                       floorName: '1st Floor',
                       roomsLeft: 12,
-                      onTap: () {},
+                      onTap: () {
+                        //  ;
+                      },
                     );
                   },
                 ),
@@ -82,7 +88,6 @@ class _TasksListingState extends State<TasksListing> {
               SizedBox(
                 height: 16,
               ),
-
             ],
           ),
         ),
@@ -90,8 +95,6 @@ class _TasksListingState extends State<TasksListing> {
     );
   }
 }
-
-
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);

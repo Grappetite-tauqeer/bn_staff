@@ -39,6 +39,11 @@ ThemeData getAppTheme(BuildContext context) {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+        ),
         elevation: MaterialStateProperty.all(0),
         minimumSize: MaterialStateProperty.all(Size.fromHeight(50)),
         backgroundColor: MaterialStateProperty.all(PColors.blue),
