@@ -188,7 +188,7 @@ class LinkedLabelRadio extends StatelessWidget {
     this.label,
     this.padding,
     this.groupValue,
-    this.value,
+    this.value = false,
     this.onChanged,
   });
 

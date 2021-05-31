@@ -7,6 +7,8 @@ class PColors {
 
   static const black = const Color.fromRGBO(0, 0, 0, 1);
   static const blue = const Color.fromRGBO(33, 150, 243, 1.0);
+  static const lightBlue = const Color.fromRGBO(178, 218, 251, 1.0);
+
   static const darkBlue = const Color.fromRGBO(9, 96, 165, 1.0);
   static const redColor = const Color.fromRGBO(255, 68, 51, 1.0);
 //background: rgba(255, 68, 51, 1);
@@ -16,6 +18,7 @@ class PColors {
   static const lightBlack = Color.fromRGBO(79, 85, 102, 1);
 
   static const lightGray =  Color.fromRGBO(196, 196, 196, 1);
+  static const lightGray2 =  Color.fromRGBO(160, 160, 160, 1);
   static const greyTextColor =  Color.fromRGBO(100, 100, 100, 1);
 
   //background: rgba(122, 122, 122, 1);

@@ -111,7 +111,7 @@ class Room {
   }
 }
 
-enum RoomStatus {  cleaned, dirty ,reported }
+enum RoomStatus {  none , cleaned, dirty ,reported }
 
 
 
