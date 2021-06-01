@@ -42,7 +42,7 @@ class _LoginViewState extends State<LoginView> {
             children: [
               Image(
                 image: AssetImage(
-                  'asset/images/icon.png',
+                  'asset/images/logo.png',
                 ),
                 width: 120,
               ),
@@ -53,7 +53,6 @@ class _LoginViewState extends State<LoginView> {
                 'Welcome Back!',
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
-                  color: PColors.blue,
                   fontSize: 26,
                 ),
               ),

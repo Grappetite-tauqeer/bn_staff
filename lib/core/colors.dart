@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 
 class PColors {
   PColors._();
+  static const text_colorDart = const Color.fromRGBO(255, 255, 255, 1.0);
+
+  static const text_error_color = const Color.fromRGBO(255, 51, 51, 1.0);
+
 
   static const black = const Color.fromRGBO(0, 0, 0, 1);
   static const blue = const Color.fromRGBO(33, 150, 243, 1.0);

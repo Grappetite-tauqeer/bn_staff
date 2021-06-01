@@ -3,6 +3,7 @@ import 'package:bn_staff/core/constants.dart';
 import 'package:bn_staff/model/room.dart';
 import 'package:bn_staff/util/custom_app_bar.dart';
 import 'package:bn_staff/util/dialog_utils.dart';
+import 'package:bn_staff/util/short_methods.dart';
 import 'package:bn_staff/widgets/ink_well.dart';
 
 import 'package:bn_staff/widgets/next_icon.dart';
@@ -56,7 +57,7 @@ class _TasksHomeState extends State<TasksHome>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar.buildAppBar('Tasks'),
+      appBar: CustomAppBar.buildAppBar('Tasks',context),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(Config.COMMON_PADDING),
@@ -303,15 +304,15 @@ class Card1 extends StatelessWidget {
         side: new BorderSide(color: Colors.grey, width: 1.0),
       ),
       elevation: 2,
-      color: Colors.white,
       child: Column(
         children: <Widget>[
           ScrollOnExpand(
             scrollOnExpand: true,
             scrollOnCollapse: false,
             child: ExpandablePanel(
-              theme: const ExpandableThemeData(
+              theme:  ExpandableThemeData(
                 headerAlignment: ExpandablePanelHeaderAlignment.center,
+                iconColor: ShortMethods.giveColor(context, Colors.black, Colors.white),
                 tapBodyToCollapse: true,
               ),
               header: Padding(

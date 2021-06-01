@@ -45,7 +45,7 @@ class _ChangeRoomStatusState extends State<ChangeRoomStatus> {
             ),
             SizedBox(height: 16,),
             LinkedLabelRadio(
-              label: 'A',
+              label: 'Clean',
               padding: EdgeInsets.all(8.0),
               value: true,
               groupValue: indexSelected == 1,
@@ -72,7 +72,7 @@ class _ChangeRoomStatusState extends State<ChangeRoomStatus> {
               },
             ),
             LinkedLabelRadio(
-              label: 'B',
+              label: 'Dirty',
               padding: EdgeInsets.all(8.0),
               value: true,
               groupValue: indexSelected == 2,
@@ -100,7 +100,7 @@ class _ChangeRoomStatusState extends State<ChangeRoomStatus> {
             ),
             LinkedLabelRadio(
               label:
-              'C',
+              'Report',
               padding: EdgeInsets.all(8.0),
               value: true,
               groupValue: indexSelected == 3,

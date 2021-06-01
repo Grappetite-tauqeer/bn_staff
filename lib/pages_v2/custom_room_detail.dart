@@ -34,7 +34,6 @@ class CustomRoomDetail extends StatelessWidget {
                 child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
                       boxShadow: [
                         BoxShadow(color: Colors.grey, spreadRadius: 1),
                       ],

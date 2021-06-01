@@ -1,16 +1,7 @@
-import 'package:bn_staff/pages/home.dart';
-import 'package:bn_staff/pages/tasks.dart';
 import 'package:bn_staff/pages_v2/tasks_home.dart';
-import 'package:bn_staff/pages_v2/tasks_listing.dart';
 import 'package:bn_staff/util/custom_amination.dart';
-import 'package:bn_staff/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'core/colors.dart';
 import 'core/theme.dart';
-import 'pages/login.dart';
-import 'pages/initial_loader.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'dart:math' as math;
 
@@ -44,6 +35,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Booking Ninja',
       theme: getAppTheme(context),
+      darkTheme: getAppThemeDark(context),
       builder: EasyLoading.init(),
       home: TasksHome(),
     );

@@ -23,6 +23,7 @@ class _InitialLoaderState extends State<InitialLoader>
     var tmp =  prefs.getString(Config.SESSION_ID_KEY);
 
 
+
     if (tmp == null) {
       goToLogin();
     } else {

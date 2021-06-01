@@ -48,11 +48,11 @@ class InputView extends StatelessWidget {
           fillColor: Colors.white70,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(4.0)),
-            borderSide: BorderSide(color: Colors.grey, width: 2),
+            borderSide: BorderSide(color: Colors.grey, width: 1),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(4.0)),
-            borderSide: BorderSide(color: PColors.blue, width: 2),
+            borderSide: BorderSide(color: PColors.blue, width: 1),
           ),
         ),
       ),
